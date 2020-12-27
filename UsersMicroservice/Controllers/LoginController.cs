@@ -51,7 +51,7 @@ namespace UsersMicroservice.Controllers
             var user = _userService.VerifyToken(userId);
 
 
-            return Ok(user);
+            return Ok(user.Id);
 
         }
     }

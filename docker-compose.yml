@@ -1,0 +1,17 @@
+version: '3'
+
+services: 
+  postgres-0:
+    image: postgres:alpine
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=postgres 
+
+  
+  users-service:
+    build: ./UsersMicroservice
+    ports: 
+      - 3000:80
+    depends_on: 
+      - postgres-0

@@ -53,6 +53,11 @@ namespace UsersMicroservice
 
             services.AddControllers();
 
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
@@ -85,6 +90,7 @@ namespace UsersMicroservice
             app.UseAuthentication();
             app.UseRouting();
             app.UseAuthorization();
+            app.UseCors(options => options.AllowAnyOrigin());
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

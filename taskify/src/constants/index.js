@@ -1,3 +1,5 @@
-const API_PREFIX = "http://localhost:3000/api";
+import config from "../config";
+
+const API_PREFIX = config.USER_SERVICES_API;
 
 export { API_PREFIX };

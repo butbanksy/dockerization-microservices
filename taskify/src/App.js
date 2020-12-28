@@ -1,10 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-import Hero from "./components/Hero";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import Register from "./components/Register"
+import Hero from "./components/landing/Hero";
+import Header from "./components/common/Header";
+import Footer from "./components/common/Footer";
+import Register from "./components/authentication/Register";
+import Login from "./components/authentication/Login";
+import Dashboard from "./components/dashboard/Dashboard";
 
 function App() {
   return (
@@ -15,6 +17,12 @@ function App() {
           <Switch>
             <Route path="/register">
               <Register />
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/dashboard">
+              <Dashboard />
             </Route>
             <Route path="/">
               <Hero />

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
   return (
@@ -18,7 +19,7 @@ export default function Hero() {
           </p>
           <div className="flex justify-center">
             <button className="inline-flex text-white font-semibold bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded text-lg">
-              Créer mon compte
+              <Link to="/register">Créer mon compte</Link>
             </button>
           </div>
         </div>

@@ -7,11 +7,27 @@ services:
       - 5432:5432
     environment:
       - POSTGRES_PASSWORD=postgres 
-
-  
+    
   users-service:
     build: ./UsersMicroservice
     ports: 
       - 3000:80
-    depends_on: 
+    depends_on:
       - postgres-0
+  frontend:
+    build:
+        context: ./taskify/
+    volumes:
+        - './taskify:/usr/src/app'
+        - /usr/src/app/node_modules
+    container_name: Frontend
+    ports:
+        - '3000:80'
+    expose:
+        - 3000
+    env_file: ./taskify/.env
+    environment:
+        - NODE_ENV=development
+        - CHOKIDAR_USEPOLLING=true
+    depends_on:
+        - users-service

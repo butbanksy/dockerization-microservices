@@ -53,10 +53,13 @@ namespace UsersMicroservice
 
             services.AddControllers();
 
-            services.AddCors(c =>
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
-            });
+                builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            }));
+
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -87,10 +90,10 @@ namespace UsersMicroservice
             userContext.Database.Migrate();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            app.UseCors("MyPolicy");
             app.UseAuthentication();
             app.UseRouting();
             app.UseAuthorization();
-            app.UseCors(options => options.AllowAnyOrigin());
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

@@ -1,22 +1,23 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import API_PREFIX from "constants";
+import { API_PREFIX } from "../constants";
 
 export default function Register() {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = ({ username, password }) => {
+    console.log(`${API_PREFIX}/login`);
     axios
-      .post(API_PREFIX + "/register", {
+      .post(`${API_PREFIX}/login`, {
         username,
         password,
       })
       .then((resp) => {
-        console.log(resp);
+        console.log(resp.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.message);
       });
   };
 

@@ -38,21 +38,21 @@ services:
       - /app/node_modules
     depends_on:
       - mongodb
-#  frontend:
-#    build:
-#        context: ./taskify/
-#    volumes:
-#        - './taskify:/usr/src/app'
-#        - /usr/src/app/node_modules
-#    container_name: Frontend
-#    ports:
-#        - '80:3000'
-#    env_file: ./taskify/.env
-#    environment:
-#        - NODE_ENV=development
-#        - CHOKIDAR_USEPOLLING=true
-#    depends_on:
-#        - users-service
-#        - tasks-service
+  frontend:
+    build:
+        context: ./taskify/
+    volumes:
+        - './taskify:/usr/src/app'
+        - /usr/src/app/node_modules
+    container_name: Frontend
+    ports:
+        - '80:3000'
+    env_file: ./taskify/.env
+    environment:
+        - NODE_ENV=development
+        - CHOKIDAR_USEPOLLING=true
+    depends_on:
+        - users-service
+        - tasks-service
 volumes:
   mongodb_data_container:

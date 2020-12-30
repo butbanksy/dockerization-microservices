@@ -11,8 +11,8 @@ export const useData = () => {
     const [status, setStatus] = useState(null);
     const [success, setSuccess] = useState(false);
 
-    const auth = useRecoilState(authAtom)
-    const call = async ({link, method, data}) => {
+    const [auth,] = useRecoilState(authAtom)
+    const call = async ({link, method, data,isTaskAPI}) => {
         const _config = {
             method: method || "GET",
             url: link,
@@ -20,7 +20,7 @@ export const useData = () => {
                 accept: "application/json",
                 ...((auth?.token) && {'Authorization': "Bearer " + (auth.token)})
             },
-            baseURL: API_PREFIX,
+            baseURL:!isTaskAPI? API_PREFIX : "http://localhost:3001",
             data
         };
         try {

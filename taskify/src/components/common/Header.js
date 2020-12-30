@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { useRecoilState } from "recoil";
+import { authAtom } from "../store/authStore";
 export default function Header() {
+  const [auth, setAuth] = useRecoilState(authAtom);
+
   return (
     <header className="text-gray-400 bg-gray-900 body-font">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
@@ -23,14 +26,20 @@ export default function Header() {
             <Link to="/">Taskify</Link>
           </span>
         </a>
-        <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-          <a className="mr-5 hover:text-white">
-            <Link to="/register">S'inscrire</Link>
-          </a>
-        </nav>
-        <button className="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">
-          <Link to="/login">Se connecter</Link>
-        </button>
+        {!auth?.token ? (
+          <>
+            <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
+              <a className="mr-5 hover:text-white">
+                <Link to="/register">S'inscrire</Link>
+              </a>
+            </nav>
+            <button className="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">
+              <Link to="/login">Se connecter</Link>
+            </button>
+          </>
+        ):
+        <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">{auth.username}</nav>
+        }
       </div>
     </header>
   );

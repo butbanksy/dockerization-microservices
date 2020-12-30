@@ -1,8 +1,41 @@
 import React from "react";
 import Task from "./Task";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useData } from "../../utils/useData";
+import { useRecoilState } from "recoil";
+import { authAtom } from "../store/authStore";
 
 export default function TasksList() {
+  const { call, loading, data, status } = useData();
+  const [auth, setAuth] = useRecoilState(authAtom);
+
+  const [list, setList] = React.useState([]);
+  const history = useHistory();
+
+  React.useEffect(() => {
+    setList(data || []);
+  }, [data]);
+
+  React.useEffect(() => {
+    if (status && status === 401) {
+      setAuth({
+        token: null,
+      });
+    }
+  }, [status]);
+
+  React.useEffect(() => {
+    call({
+      link: "/tasks",
+      isTaskAPI: true,
+    });
+  }, []);
+
+  React.useEffect(() => {
+    if (data) {
+      console.log(data);
+    }
+  }, [data]);
   return (
     <>
       <div className="flex flex-wrap w-full mb-20 flex-col items-center text-center">
@@ -10,48 +43,20 @@ export default function TasksList() {
           Mes tâches
         </h1>
       </div>
-
-      <button className="inline-flex text-white font-semibold bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded text-sm my-5">
-        <Link to="/dashboard/create">Créer une nouvelle tâche</Link>
-      </button>
-
+      <Link to="/dashboard/create">
+        <button className="inline-flex text-white font-semibold bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded text-sm my-5">
+          Créer une nouvelle tâche
+        </button>
+      </Link>
       <div className="flex flex-wrap -m-4">
-        <Task
-          title="Shooting Stars"
-          description="Fingerstache flexitarian street art 8-bit waist co, subway tile
-                poke farm."
-          isDone={true}
-        />
-        <Task
-          title="Shooting Stars"
-          description="Fingerstache flexitarian street art 8-bit waist co, subway tile
-                poke farm."
-          isDone={true}
-        />
-        <Task
-          title="Shooting Stars"
-          description="Fingerstache flexitarian street art 8-bit waist co, subway tile
-                poke farm."
-          isDone={false}
-        />
-        <Task
-          title="Shooting Stars"
-          description="Fingerstache flexitarian street art 8-bit waist co, subway tile
-                poke farm."
-          isDone={true}
-        />
-        <Task
-          title="Shooting Stars"
-          description="Fingerstache flexitarian street art 8-bit waist co, subway tile
-                poke farm."
-          isDone={false}
-        />
-        <Task
-          title="Shooting Stars"
-          description="Fingerstache flexitarian street art 8-bit waist co, subway tile
-                poke farm."
-          isDone={true}
-        />
+        {list.map((e) => (
+          <Task
+            key={e.id}
+            title={e.title}
+            description={e.desc}
+            isDone={e.done}
+          />
+        ))}
       </div>
     </>
   );

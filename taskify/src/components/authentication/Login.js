@@ -2,19 +2,30 @@ import React, {useEffect} from "react";
 import {useForm} from "react-hook-form";
 import {useData} from "../../utils/useData";
 import {authAtom} from "../store/authStore";
-import {useSetRecoilState} from "recoil";
+import {useRecoilState} from "recoil";
+import {useHistory} from "react-router-dom"
 
 export default function Register() {
     const {register, handleSubmit} = useForm();
     const {call, loading, data, error, success} = useData()
 
-    const setAuth = useSetRecoilState(authAtom)
+    const [auth,setAuth] = useRecoilState(authAtom)
 
+    const history = useHistory()
+
+
+    useEffect(() => {
+        if(auth?.token)
+        {
+            history.push("/dashboard")
+        }
+    },[auth])
     useEffect(() => {
         if (data?.token) {
             setAuth({
                 ...data
             })
+
         }
     }, [data])
 

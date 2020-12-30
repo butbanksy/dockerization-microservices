@@ -10,7 +10,7 @@ export default function Task({ title, description, isDone }) {
           {title}
         </h2>
         <p className="leading-relaxed text-base">{description}</p>
-        <button className="flex text-white  border-0 mt-2 py-2 px-2 focus:outline-none hover:bg-gray-600 rounded text-normal">
+        <button disabled={true} className="flex text-white  border-0 mt-2 py-2 px-2 focus:outline-none hover:bg-gray-600 rounded text-normal">
           Modifier
         </button>
       </div>

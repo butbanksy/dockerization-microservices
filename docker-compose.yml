@@ -14,20 +14,45 @@ services:
       - 3000:80
     depends_on:
       - postgres-0
-  frontend:
-    build:
-        context: ./taskify/
-    volumes:
-        - './taskify:/usr/src/app'
-        - /usr/src/app/node_modules
-    container_name: Frontend
+  mongodb:
+    image: mongo:latest
+    hostname: mongodb
     ports:
-        - '80:3000'
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+    restart: always
     expose:
-        - 80
-    env_file: ./taskify/.env
-    environment:
-        - NODE_ENV=development
-        - CHOKIDAR_USEPOLLING=true
+      - 27017
+  tasks-service:
+    build:
+      context: ./task-service/
+    container_name: task_service
+    ports:
+      - '3001:4000'
+    expose:
+      - 4000
+    env_file: ./task-service/.env
+    volumes:
+      - './task-service:/app/'
+      - /app/node_modules
     depends_on:
-        - users-service
+      - mongodb
+#  frontend:
+#    build:
+#        context: ./taskify/
+#    volumes:
+#        - './taskify:/usr/src/app'
+#        - /usr/src/app/node_modules
+#    container_name: Frontend
+#    ports:
+#        - '80:3000'
+#    env_file: ./taskify/.env
+#    environment:
+#        - NODE_ENV=development
+#        - CHOKIDAR_USEPOLLING=true
+#    depends_on:
+#        - users-service
+#        - tasks-service
+volumes:
+  mongodb_data_container:
